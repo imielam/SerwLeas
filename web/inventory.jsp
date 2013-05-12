@@ -35,16 +35,16 @@
             <div class="content">
                 <table class="leasitem">
                     <tr>
+                        <td><img src="img/karton.jpg" alt="placeholder"></td><td>NAZWA</td>
+                    </tr>
+                    <tr>
+                        <td colspan ="2">testeeteeetest</td>
+                    </tr>
+                    <tr>
                         <td>test</td><td>test</td>
                     </tr>
                     <tr>
-                        <td>testeeteeetest</td>
-                    </tr>
-                    <tr>
-                        <td>test</td><td>test</td>
-                    </tr>
-                    <tr>
-                        <td>testets?</td><td>test</td>
+                        <td>testets?</td><td>tteateataetaetest</td>
                     </tr>
                     <tr>
                         <td>test</td><td>test</td>
