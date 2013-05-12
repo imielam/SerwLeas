@@ -33,15 +33,7 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
+
             </div>
         </div>
     </body>
