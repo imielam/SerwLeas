@@ -23,7 +23,7 @@
             }else if(user.getUsertype()==1){
                 menucontents = "Witaj "+user.getName()+"!"
                         + "<ul class=\"menu\">"
-                        + "<li><a href=\"controlPanel.jsp\">Panel Sterowania</a></li>"
+                        + "<li><a href=\"controlPanel.jsp\">Panel Użytkownika</a></li>"
                         + "<li><a href=\"logout.jsp\">Wyloguj</a></li>"
                         + "</ul>";
             }

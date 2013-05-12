@@ -96,7 +96,7 @@ body {
 }
 
 .leftmenu {
-	margin: 0px;
+	margin: 5px;
 	padding: 0px 10px 0px 0px;
 	width: 130px;
         min-height: 400px;
@@ -107,7 +107,7 @@ body {
 }
 
 .menu {
-	margin: 10px 0px 0px 5px;
+	margin: 5px 0px 0px 5px;
 	padding: 5px;
 	list-style: none;
 	font-size: 12pt;
