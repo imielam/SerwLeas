@@ -33,15 +33,23 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
-                <br />
-                Test test
+                <table class="leasitem">
+                    <tr>
+                        <td>test</td><td>test</td>
+                    </tr>
+                    <tr>
+                        <td>testeeteeetest</td>
+                    </tr>
+                    <tr>
+                        <td>test</td><td>test</td>
+                    </tr>
+                    <tr>
+                        <td>testets?</td><td>test</td>
+                    </tr>
+                    <tr>
+                        <td>test</td><td>test</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
