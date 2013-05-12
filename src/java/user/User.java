@@ -13,6 +13,9 @@ public class User {
     private String name;
     private String password;
     private int usertype;
+    private int userid;
+
+    
     
     public User(){
         usertype = 0;
@@ -39,5 +42,13 @@ public class User {
     
     public int getUsertype(){
         return usertype;
+    }
+    
+    public int getUserid() {
+        return userid;
+    }
+    
+    public void setUserid(int userid){
+        this.userid = userid;
     }
 }
