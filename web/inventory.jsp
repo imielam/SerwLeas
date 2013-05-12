@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" import="inventory.Inventory, inventory.Item" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +14,8 @@
         <title>Leasing</title>
     </head>
     <body>
+        <jsp:useBean id="inventory"
+                             class="inventory.Inventory" scope="session"></jsp:useBean>
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
@@ -33,6 +36,11 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
+                <%
+                    for(Item i : inventory.inventory){
+                        
+                    }
+                    %>
                 <table class="leasitem">
                     <tr>
                         <td><img src="img/karton.jpg" alt="placeholder" style="vertical-align: middle"></td><td>Karton 8 proffesional Edition N</td>
@@ -54,6 +62,8 @@
                         <td><input type="text" size="2" name="idxitemorderquant" value="0" style="text-align:right"></td>
                     </tr>
                 </table>
+                
+                
             </div>
         </div>
     </body>

@@ -31,7 +31,6 @@
             </div>
         </div>
         <div id="main">
-
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <form method="post" action ="validate.jsp">
@@ -42,8 +41,7 @@
                     <p><strong>Hasło: </strong>
                         <input type="password" size="20" name="password"></p>
                     <p><input type="submit" value="Zaloguj" /></p>
-                    </form>
-                    
+                </form>
                     <p>Nie posiadasz jeszcze konta? <a href="register.jsp">Zarejestruj się.</a></p>
                 </div>
             </div>
