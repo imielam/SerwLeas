@@ -12,11 +12,20 @@ public class User {
  
     private String name;
     private String password;
+    private String email;
+    private String pesel;
     private int usertype;
     private int userid;
 
-    
-    
+    public User(String name, String password, String email, String pesel, int usertype, int userid) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.pesel = pesel;
+        this.usertype = usertype;
+        this.userid = userid;
+    }
+
     public User(){
         usertype = 0;
     }
