@@ -9,5 +9,5 @@ package Company;
  * @author Macimi
  */
 public class Company {
-    
+    //waaaaaaaaaaaaaaaaaaaaa
 }
