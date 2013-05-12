@@ -16,48 +16,63 @@
     <body>
         <jsp:useBean id="user" class="user.User"
                      scope="session"></jsp:useBean>
+        <jsp:useBean id="inventory"
+                     class="inventory.Inventory" scope="session"></jsp:useBean>
         <jsp:useBean id="orders"
                      class="orders.Orders" scope="session"></jsp:useBean>
-        <div id="top">
-            <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
-            <div id ="headermenu">
-                <div class="headermenu_pos">
-                    <a href="index.jsp">Aktualności</a></div>
-                <div class="headermenu_pos">
-                    <a href="ofirmie.jsp">O firmie</a></div>
-                <div class="headermenu_pos">
-                    <a href="inventory.jsp">Leasing</a></div>
-                <div class="headermenu_pos">
-                    <a href="cart.jsp">Koszyk</a></div>
-                <div class="headermenu_pos">
-                    <a href="controlPanel.jsp">Profil</a></div>
-                <div class="headermenu_posend">
-                    <a href="kontakt.jsp">Kontakt</a></div>
+            <div id="top">
+                <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
+                <div id ="headermenu">
+                    <div class="headermenu_pos">
+                        <a href="index.jsp">Aktualności</a></div>
+                    <div class="headermenu_pos">
+                        <a href="ofirmie.jsp">O firmie</a></div>
+                    <div class="headermenu_pos">
+                        <a href="inventory.jsp">Leasing</a></div>
+                    <div class="headermenu_pos">
+                        <a href="cart.jsp">Koszyk</a></div>
+                    <div class="headermenu_pos">
+                        <a href="controlPanel.jsp">Profil</a></div>
+                    <div class="headermenu_posend">
+                        <a href="kontakt.jsp">Kontakt</a></div>
+                </div>
             </div>
-        </div>
-        <div id="main">
+            <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-            <%
-                    String content ="Sprawdzanie uprawnień...";
-                    String tmp;
-                    if (user.getUsertype()==0) {
-                        response.setHeader("Refresh","0;url=login.jsp");
+                <%
+                    String content = "Sprawdzanie uprawnień...";
+                    String tmp = "";
+                    if (user.getUsertype() == 0) {
+                        response.setHeader("Refresh", "0;url=login.jsp");
                     } else if (user.getUsertype() == 1) {
-                        for (Order o : orders.orders){
-                            if(o.getUserid() == user.getUserid()){
-                                tmp = Integer.toString(o.getOrderid());
-                                content = content + tmp;
+                        content = "";
+                        for (Order o : orders.orders) {
+
+
+                            if (o.getUserid() == user.getUserid()) {
+                                content += "<table class=\"leasitem\">"
+                                        + "<tr><td>Id zamówienia:</td><td></td></tr>"
+                                        + "<tr><td>Początek zamówienia:</td><td></td></tr>"
+                                        + "<tr><td>Koniec zamówienia:</td><td></td></tr>"
+                                        + "<tr><td colspan=\"2\">Zamówione przedmioty</td></tr>";
+                                for (OrderedItem oi : o.getOrdereditems()) {
+                                    content += "<tr><td>"+inventory.inventory.get(oi.itemid)+"</td>"
+                                            + "<td>"+oi.quantity+"</td></tr>";
+                                }
+                                content += "</table>";
                             }
                         }
+
+                    } else if (user.getUsertype() == 2) {
                         content = "";
-                    } else if (user.getUsertype() == 2){
-                        content = "";
-                    } else if (user.getUsertype() == 3){
+                    } else if (user.getUsertype() == 3) {
                         content = "";
                     }
                 %>
                 <%=content%>
+
+
             </div>
         </div>
     </body>
