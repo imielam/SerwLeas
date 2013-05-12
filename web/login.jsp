@@ -44,7 +44,6 @@
                     <p><input type="submit" value="Zaloguj" /></p>
                     </form>
                     
-
                     <p>Nie posiadasz jeszcze konta? <a href="register.jsp">Zarejestruj się.</a></p>
                 </div>
             </div>

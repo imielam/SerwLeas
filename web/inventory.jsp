@@ -35,7 +35,7 @@
             <div class="content">
                 <table class="leasitem">
                     <tr>
-                        <td><img src="img/karton.jpg" alt="placeholder" style="vertical-align: middle"></td><td>NAZWA</td>
+                        <td><img src="img/karton.jpg" alt="placeholder" style="vertical-align: middle"></td><td>Karton 8 proffesional Edition N</td>
                     </tr>
                     <tr>
                         <td colspan ="2">testeeteeetest giuehgibeaygbeageoague
