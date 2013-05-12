@@ -35,16 +35,7 @@
             </div>
             <div id="main">
 
-                <div class="leftmenu">
-                    <ul class="menu">
-                        <li><a href="login.jsp">Zaloguj</a></li>
-                        <li><a href="link2.html">link2</a></li>
-                        <li><a href="link3.html">link3</a></li>
-                        <li><a href="link4.html">link4</a></li>
-                        <li><a href="link5.html">link5</a></li>
-                        <li><a href="link6.html">link6</a></li>
-                    </ul>
-                </div>
+            <jsp:include page="leftpanel.jsp"/>
                 <div class="content">
                     
                 <%
