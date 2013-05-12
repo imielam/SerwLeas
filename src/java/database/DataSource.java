@@ -40,7 +40,7 @@ public class DataSource {
             con.closeConnection();
             return rs.next();
         } catch (SQLException ex) {
-            System.err.println("nei powiodło się: "+ ex.getMessage());
+            System.err.println("nie powiodło się: "+ ex.getMessage());
             return false;
         }
     }

@@ -19,6 +19,7 @@ public class User {
     
     public User(){
         usertype = 0;
+        userid = 3;
     }
     public String getName() {
         return name;

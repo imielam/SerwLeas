@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page language="java" import="Orders.Orders, Orders.Order, Orders.OrderedItem" %>
+<%@ page language="java" import="orders.Orders, orders.Order, orders.OrderedItem" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +17,7 @@
         <jsp:useBean id="user" class="user.User"
                      scope="session"></jsp:useBean>
         <jsp:useBean id="orders"
-                     class="Orders" scope="session"></jsp:useBean>
+                     class="orders.Orders" scope="session"></jsp:useBean>
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
@@ -40,11 +40,15 @@
             <div class="content">
             <%
                     String content ="Sprawdzanie uprawnień...";
+                    String tmp;
                     if (user.getUsertype()==0) {
                         response.setHeader("Refresh","0;url=login.jsp");
                     } else if (user.getUsertype() == 1) {
                         for (Order o : orders.orders){
-                            
+                            if(o.getUserid() == user.getUserid()){
+                                tmp = Integer.toString(o.getOrderid());
+                                content = content + tmp;
+                            }
                         }
                         content = "";
                     } else if (user.getUsertype() == 2){
@@ -52,8 +56,6 @@
                     } else if (user.getUsertype() == 3){
                         content = "";
                     }
-                    
-                    
                 %>
                 <%=content%>
             </div>
