@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package orders_new;
+package orders;
 
-import orders_new.OrderedItem;
+import orders.OrderedItem;
 import inventory.Item;
 import java.util.ArrayList;
 import java.util.List;

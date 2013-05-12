@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package orders_new;
+package orders;
 
 import database.Connector;
 import database.DBCredentials;
