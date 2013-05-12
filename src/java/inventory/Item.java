@@ -15,9 +15,9 @@ public class Item {
     private String description;
     private int quantity;
     private int aviable;
-    private float base_price;
+    private double base_price;
 
-    public Item(int id, String name, String desc, int quant, int avi, float bp) {
+    public Item(int id, String name, String desc, int quant, int avi, double bp) {
         this.id = id;
         this.name = name;
         this.description = desc;
@@ -46,7 +46,7 @@ public class Item {
         return aviable;
     }
 
-    public float getBase_price() {
+    public double getBase_price() {
         return base_price;
     }
 

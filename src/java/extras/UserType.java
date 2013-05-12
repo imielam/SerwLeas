@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Company;
+package extras;
 
 /**
  *
  * @author Macimi
  */
-public class Company {
-    
+public enum UserType{
+    GUEST, CLIENT, SALESMAN, ADMIN
 }
