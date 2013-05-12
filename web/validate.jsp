@@ -46,7 +46,7 @@
 
                     if (dataSource.userExists(user)) {
                         user.setUsertype(1);
-                        session.setMaxInactiveInterval(12);
+                        session.setMaxInactiveInterval(600); // 10 minutowa sesja
                         result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
                         response.setHeader("Refresh", "3;url=controlPanel.jsp");
                     } else {
