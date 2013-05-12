@@ -29,6 +29,7 @@
     <body>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
+        <% inventory.getItems(); %>
             <div id="top">
                 <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
                 <div id ="headermenu">

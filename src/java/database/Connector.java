@@ -25,6 +25,10 @@ public class Connector {
         this(DEFAULT_ADDRESS, DEFAULT_USER, DEFAULT_PASSWORD);
     }
     
+    public Connector(DBUser user){
+        this(user.getLogin(), user.getPassword());
+    }
+    
     public Connector(String user, String password) {
         this(DEFAULT_ADDRESS, DEFAULT_USER, DEFAULT_PASSWORD);
     }
