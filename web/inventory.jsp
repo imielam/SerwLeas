@@ -38,16 +38,20 @@
                         <td><img src="img/karton.jpg" alt="placeholder" style="vertical-align: middle"></td><td>NAZWA</td>
                     </tr>
                     <tr>
-                        <td colspan ="2">testeeteeetest</td>
+                        <td colspan ="2">testeeteeetest giuehgibeaygbeageoague
+                            anigybeaugbyeagyueagbieagojeauaeiybgeangieyabgaeng
+                            obeaiygbeaiugbeaiygbeaigboeaiayebgueaiygbea
+                            9ygbeaiygbi</td>
                     </tr>
                     <tr>
-                        <td>test</td><td>test</td>
+                        <td>Liczba dostępnych sztuk: </td><td>12</td>
                     </tr>
                     <tr>
-                        <td>testets?</td><td>tteateataetaetest</td>
+                        <td>Cena za miesiąc: </td><td>3,50zł</td>
                     </tr>
                     <tr>
-                        <td>test</td><td>test</td>
+                        <td>Dodaj do koszyka:</td>
+                        <td><input type="text" size="2" name="idxitemorderquant" value="0" style="text-align:right"></td>
                     </tr>
                 </table>
             </div>
