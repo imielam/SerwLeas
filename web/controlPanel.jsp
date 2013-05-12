@@ -41,11 +41,21 @@
                 <%
                     String content ="Sprawdzanie uprawnień...";
                     if (user.getUsertype()==0) {
-
-                        response.setHeader("Refresh", "0;url=login.jsp");
+                        response.setHeader("Refresh","0;url=login.jsp");
                     } else if (user.getUsertype() == 1) {
-                        content = "Witaj "+user.getName()+". Masz uprawnienia Klienta.<p> <a href=\"logout.jsp\">Wyloguj</a></p>";
+                        content = "Witaj "+user.getName()+". Masz uprawnienia Klienta."
+                                + "<p> <a href=\"orders.jsp\">Zobacz swoje zamówienia</a></p>"
+                                + "<p> <a href=\"logout.jsp\">Wyloguj</a></p>";
+                    } else if (user.getUsertype() == 2){
+                        content = "Witaj "+user.getName()+". Masz uprawnienia Sprzedawcy."
+                                + "<p> <a href=\"orders.jsp\">Przejrzyj listę zamówień</a></p>"
+                                + "<p> <a href=\"logout.jsp\">Wyloguj</a></p>";
+                    } else if (user.getUsertype() == 3){
+                        content = "Witaj "+user.getName()+". Masz uprawnienia Administratora."
+                                + "<p> <a href=\"logout.jsp\">Wyloguj</a></p>";
                     }
+                    
+                    
                 %>
                 <%=content%>
                 </div>

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : validate
-    Created on : 2013-05-11, 19:04:42
+    Document   : index
+    Created on : 2013-05-09, 20:21:46
     Author     : Ponury
 --%>
 
@@ -10,11 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <title>Walidacja</title>
+        <title>Leasing</title>
     </head>
     <body>
-
-
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
@@ -35,30 +33,16 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-                <jsp:useBean id="user" class="user.User"
-                             scope="session"></jsp:useBean>
-                <jsp:setProperty property="*" name="user" />
-                
-                <jsp:useBean id="dataSource"
-                             class="database.DataSource" scope="session"></jsp:useBean>
-
-                <% String result = "";
-
-                    if (dataSource.userExists(user)) {
-                        user.setUsertype(1);
-                        session.setMaxInactiveInterval(12);
-                        result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
-                        response.setHeader("Refresh", "3;url=controlPanel.jsp");
-                    } else {
-                        result = "Dane niepoprawne. Przekierowanie na stronę logowania w toku...";
-                        response.setHeader("Refresh", "3;url=login.jsp");
-                    }
-                %>
-                <div id="loginBox">
-                    <%= result%>
-                </div>
+                Test test
+                <br />
+                Test test
+                <br />
+                Test test
+                <br />
+                Test test
+                <br />
+                Test test
             </div>
         </div>
-
     </body>
 </html>

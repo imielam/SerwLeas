@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ page language="java" import="captchas.CaptchasDotNet" import="user.Validation" %>
+<%@ page language="java" import="captchas.CaptchasDotNet, database.MD5" import="user.Validation" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -56,13 +56,16 @@
                     //  500,                          // width
                     //  80                            // height
                     //  );
+                
+                    
                 %>
 
                 <%-- 
                  % encodeUrl produces jsessionid=xyz in case of disabled cookies
                  % Please test your implementation also with disabled cookies
                 --%>
-                <form name="frm" method="post" onsubmit="return validateRegisterData()" action="<%=response.encodeUrl("check.jsp")%>">
+                
+                <form name="frm" method="post" action="<%=response.encodeUrl("check.jsp")%>">
                     <div id="loginBox">
                         <h4>Dane użytkownika</h4>
 
