@@ -176,3 +176,6 @@ h5 {
 .leasitem tr td{
     border: 1px solid black;
 }
+.leasitem td {
+    min-height: 30px;
+}
