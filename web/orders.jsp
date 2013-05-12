@@ -52,27 +52,28 @@
 
                             if (o.getUserid() == user.getUserid()) {
                                 content += "<table class=\"leasitem\">"
-                                        + "<tr><td>Id zamówienia:</td><td></td></tr>"
-                                        + "<tr><td>Początek zamówienia:</td><td></td></tr>"
-                                        + "<tr><td>Koniec zamówienia:</td><td></td></tr>"
+                                        + "<tr><td>Id zamówienia:</td><td>"+o.getOrderid()+"</td></tr>"
+                                        + "<tr><td>Początek zamówienia:</td><td>"+o.getStartdate()+"</td></tr>"
+                                        + "<tr><td>Koniec zamówienia:</td><td>"+o.getEnddate()+"</td></tr>"
                                         + "<tr><td colspan=\"2\">Zamówione przedmioty</td></tr>";
                                 for (OrderedItem oi : o.getOrdereditems()) {
-                                    content += "<tr><td>"+inventory.inventory.get(oi.itemid)+"</td>"
+                                    content += "<tr><td>"+inventory.inventory.get(oi.itemid).getName()+"</td>"
                                             + "<td>"+oi.quantity+"</td></tr>";
                                 }
-                                content += "</table>";
+                                content += "</table><br />";
                             }
                         }
 
                     } else if (user.getUsertype() == 2) {
-                        content = "";
+                        content = "<p>Wybierz klienta: </p>";
+                        content += "<table class=\"leasitem\">";
+                        
+                        content += "</table>";
                     } else if (user.getUsertype() == 3) {
                         content = "";
                     }
                 %>
                 <%=content%>
-
-
             </div>
         </div>
     </body>

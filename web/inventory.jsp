@@ -12,6 +12,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>Leasing</title>
+        <script>
+            function validate(evt) {
+                var theEvent = evt || window.event;
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+                var regex = /[0-9]/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault)
+                        theEvent.preventDefault();
+                }
+            }
+        </script>
     </head>
     <body>
         <jsp:useBean id="inventory"
@@ -37,30 +50,31 @@
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%
-                    String content = "";
+                    String content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">";
                     String tmp = "";
                     for (Item i : inventory.inventory) {
                         tmp = "<table class=\"leasitem\">"
                                 + "<tr>"
-                                + "<td><img src=\"img/karton.jpg\" alt=\"placeholder\" style=\"vertical-align: middle\"></td><td>"+i.getName()+"</td>"
+                                + "<td><img src=\"img/karton.jpg\" alt=\"placeholder\" style=\"vertical-align: middle\"></td><td>" + i.getName() + "</td>"
                                 + "</tr>"
                                 + "<tr>"
-                                + "<td colspan =\"2\">"+i.getDescription()+"</td>"
+                                + "<td colspan =\"2\">" + i.getDescription() + "</td>"
                                 + "</tr>"
                                 + "<tr>"
-                                + "<td>Liczba dostępnych sztuk: </td><td>"+i.getAviable()+"</td>"
+                                + "<td>Liczba dostępnych sztuk: </td><td>" + i.getAviable() + "</td>"
                                 + "</tr>"
                                 + "<tr>"
-                                + "<td>Cena za miesiąc: </td><td>"+i.getBase_price()+"</td>"
+                                + "<td>Cena za miesiąc: </td><td>" + i.getBase_price() + "</td>"
                                 + "</tr>"
                                 + "<tr>"
                                 + "<td>Dodaj do koszyka:</td>"
-                                + "<td><input type=\"text\" size=\"2\" name=\"item"+i.getId()+"orderquant\" value=\"0\" style=\"text-align:right\"></td>"
+                                + "<td><input type=\"text\" size=\"2\" onkeypress=\"validate(event)\" name=\"item" + i.getId() + "orderquant\" value=\"0\" style=\"text-align:right\"></td>"
                                 + "</tr>"
                                 + "</table>"
                                 + "<br />";
-                        content = content + tmp;
+                        content += tmp;
                     }
+                    content += "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Złóż zamówienie\" /></p></form>";
                 %>
 
                 <%=content%>

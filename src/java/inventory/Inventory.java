@@ -20,7 +20,7 @@ public class Inventory {
         inventory.add(tmp);
         tmp = new Item(2,"słoń","Słoń to nawet nie przedmiot ale wynajmujemy je bo są szare",15,11,3000.99f);
         inventory.add(tmp);
-        tmp = new Item(2,"jogurt bakoma","Truskawkowe jogurty bakoma na promocji teraz już od 99.99zł",600,345,99.99f);
+        tmp = new Item(3,"jogurt bakoma","Truskawkowe jogurty bakoma na promocji teraz już od 99.99zł",600,345,99.99f);
         inventory.add(tmp);
     }
 }

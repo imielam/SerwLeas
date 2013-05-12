@@ -14,7 +14,6 @@
     </head>
     <body>
 
-
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
