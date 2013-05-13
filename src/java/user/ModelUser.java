@@ -26,7 +26,7 @@ public class ModelUser {
     private Connector con;
 
     private int addAddress(TAddressData address) throws SQLException {
-        String sql = "\"INSERT INTO \"Address\" (postal_code, street, street_hn, street_an, city) VALUES (?, ?, ?, ?, ?);\";";
+        String sql = "INSERT INTO \"Address\" (postal_code, street, street_hn, street_an, city) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement st = con.prepareStatement(sql);
         int i = 1;
         st.setString(i++, address.getPostalCode());
@@ -53,7 +53,7 @@ public class ModelUser {
     }
 
     private int addCompany(TCompanyData company, int addressId) throws SQLException {
-        String sql = "\"INSERT INTO \"Company\" (address_id, name, NIP) VALUES (?, ?, ?);\";";
+        String sql = "INSERT INTO \"Company\" (address_id, name, NIP) VALUES (?, ?, ?);";
         PreparedStatement st = con.prepareStatement(sql);
         int i = 1;
         st.setInt(i++, addressId);
@@ -76,7 +76,7 @@ public class ModelUser {
     }
 
     private void addUser(TUserData user, int companyId) throws SQLException {
-        String sql = "\"INSERT INTO \"Users\" (login, password, email, company_id, user_type, pesel) VALUES (?, ?, ?, ?, ?, ?);\";";
+        String sql = "INSERT INTO \"Users\" (login, password, email, company_id, user_type, pesel) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement st = con.prepareStatement(sql);
         int i = 1;
         st.setString(i++, user.getLogin());
