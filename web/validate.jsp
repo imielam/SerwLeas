@@ -42,9 +42,9 @@
                              class="database.DataSource" scope="session"></jsp:useBean>
 
                 <% String result = "";
-
-                    if (dataSource.userExists(user)) {
-                        user.setUsertype(1);
+                    int k = dataSource.userExists(user);
+                    if (k>0) {
+                        user.setUsertype(k);
                         session.setMaxInactiveInterval(600); // 10 minutowa sesja
                         result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
                         response.setHeader("Refresh", "3;url=controlPanel.jsp");

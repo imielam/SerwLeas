@@ -65,7 +65,7 @@
                  % Please test your implementation also with disabled cookies
                 --%>
                 
-                <form name="frm" method="post" action="<%=response.encodeUrl("check.jsp")%>">
+                <form name="frm" method="post" action="<%=response.encodeUrl("validateRegister.jsp")%>">
                     <div id="loginBox">
                         <h4>Dane użytkownika</h4>
 

@@ -1,11 +1,12 @@
-<%--
- % Example for using the free http://captchas.net Webservice
- % Documentation see http://captchas.net/sample/jsp/
+<%-- 
+    Document   : validateRegister
+    Created on : 2013-05-13, 12:59:32
+    Author     : Ponury
 --%>
 
+<!DOCTYPE html>
 <%@ page language="java" import="captchas.CaptchasDotNet, user.Validation, user.ModelUser, user.TUserData, address.TAddressData, company.TCompanyData, extras.UserType" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -55,12 +56,12 @@
                             companyname, companynip, companytown, companystreet, companyhn,
                             companyan, companypostalcode);
                     if (validatorResponse == "ok") {
-                        body = "Walidacja i kapcza poprawna. Niestety, tworzenie kont jest w danej chwili zablokowane.";
+                        body = "Walidacja i kapcza poprawna.";
                         TCompanyData tcd = new TCompanyData(companyname,companynip);
                         TAddressData tad = new TAddressData(companypostalcode,companystreet,companyhn,Integer.parseInt(companyan),companytown);
                         TUserData tud = new TUserData(username,email,1,pesel);
                         ModelUser mu = new ModelUser();
-                        mu.addNewUser(UserType.CLIENT, tud, tcd, tad);
+                        mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
                         
                         
                     } else {

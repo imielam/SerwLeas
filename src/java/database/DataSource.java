@@ -30,7 +30,7 @@ public class DataSource {
         con = new Connector(user, password);
     }
 
-    public boolean userExists(User user) {
+    public int userExists(User user) {
         ResultSet rs;
         try {
             PreparedStatement st = con.prepareStatement("SELECT * FROM \"Users\" WHERE login = ? AND password = ?");
@@ -38,10 +38,13 @@ public class DataSource {
             st.setString(2, user.getPassword().trim());
             rs = st.executeQuery();
             con.closeConnection();
-            return rs.next();
+            if(rs.next()){
+                return rs.getInt("user_type");
+            }
+            return 0;
         } catch (SQLException ex) {
             System.err.println("nie powiodło się: "+ ex.getMessage());
-            return false;
+            return 0;
         }
     }
 }
