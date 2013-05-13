@@ -3,10 +3,12 @@
  * and open the template in the editor.
  */
 package user;
-
+import database.MD5;
+import java.security.NoSuchAlgorithmException;
 /**
  *
  * @author Ponury
+ * 
  */
 public class User {
  
@@ -16,10 +18,14 @@ public class User {
     private String pesel;
     private int usertype;
     private int userid;
-
+    MD5  m = new MD5();
     public User(String name, String password, String email, String pesel, int usertype, int userid) {
         this.name = name;
-        this.password = password;
+        try{
+            this.password = m.md5(password);
+        } catch (NoSuchAlgorithmException nsae){
+            
+        }
         this.email = email;
         this.pesel = pesel;
         this.usertype = usertype;
@@ -43,7 +49,11 @@ public class User {
     }
  
     public void setPassword(String password) {
-        this.password = password;
+        try{
+            this.password = m.md5(password);
+        } catch (NoSuchAlgorithmException nsae){
+            
+        }
     }
     
     public void setUsertype(int usertype){

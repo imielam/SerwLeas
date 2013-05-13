@@ -49,7 +49,6 @@
                         content = "";
                         for (Order o : orders.orders) {
 
-
                             if (o.getUserid() == user.getUserid()) {
                                 content += "<table class=\"leasitem\">"
                                         + "<tr><td>Id zamówienia:</td><td>"+o.getOrderid()+"</td></tr>"

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : 2013-05-09, 20:21:46
+    Document   : ofirmie
+    Created on : 2013-05-13, 11:04:02
     Author     : Ponury
 --%>
 
@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <title>SerwLeas</title>
+        <title>O Firmie</title>
     </head>
     <body>
         <div id="top">
@@ -33,8 +33,9 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-                <p>Kluczowe dla istnienia świata niusy</p>
+                <p>Bardzo interesująca historia firmy zasługująca na opisanie w książce</p>
             </div>
         </div>
     </body>
 </html>
+
