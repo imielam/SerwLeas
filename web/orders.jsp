@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page language="java" import="orders.Orders, orders.Order, orders.OrderedItem" %>
+<%@ page language="java" import="orders_new.Orders, orders_new.OrderedItem, orders_new.Order" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,7 +19,7 @@
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
         <jsp:useBean id="orders"
-                     class="orders.Orders" scope="session"></jsp:useBean>
+                     class="orders_new.Orders" scope="session"></jsp:useBean>
             <div id="top">
                 <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
                 <div id ="headermenu">

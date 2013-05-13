@@ -2,17 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package orders;
+package orders_new;
 
 /**
  *
  * @author Macimi
  */
-public class OrderAmount {
+public class TOrderAmount {
     private String userName;
     private int amount;
 
-    public OrderAmount(String userName, int amount) {
+    public TOrderAmount(String userName, int amount) {
         this.userName = userName;
         this.amount = amount;
     }

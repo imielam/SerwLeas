@@ -51,6 +51,20 @@ public class Connector {
         }
     }
     
+    public void startTransaction() throws SQLException{
+        connection.setAutoCommit(false);
+    }
+    
+    public void rollback() throws SQLException{
+        connection.rollback();
+        connection.setAutoCommit(true);
+    }
+    
+    public void commit() throws SQLException{
+        connection.commit();
+        connection.setAutoCommit(true);
+    }
+    
     public PreparedStatement prepareStatement(String sql) throws SQLException{
         return connection.prepareStatement(sql);
     }
