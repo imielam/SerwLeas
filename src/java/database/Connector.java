@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author Macimi
  */
 public class Connector {
-    private static final String DEFAULT_HOST = "//192.168.0.23:5432/";
+    private static final String DEFAULT_HOST = "//192.168.43.86:5432/";
     private static final String DEFAULT_DATABASE = "bezpieczenstwooporogramowania";
     private static final String DEFAULT_ADDRESS = DEFAULT_HOST + DEFAULT_DATABASE;
     private static final String DEFAULT_USER = "dbguest";

@@ -123,7 +123,7 @@ public class ModelOrders {
             sql = "DELETE FROM \"OrderedItems\" WHERE \"OrderedItems\".ordered_item_id = ?;";
             st = con.prepareStatement(sql);
             st.setInt(1, oi.getOrderedItemId());
-            st.executeQuery();
+            st.executeUpdate();
             sql = "SELECT "
                     + "  \"Inventory\".available"
                     + "FROM "
@@ -141,7 +141,7 @@ public class ModelOrders {
             st = con.prepareStatement(sql);
             st.setInt(1, available + oi.getQuantity());
             st.setInt(2, oi.getItemId());
-            st.executeQuery();
+            st.executeUpdate();
             con.commit();
             con.closeConnection();
         } catch (SQLException ex) {
@@ -178,13 +178,13 @@ public class ModelOrders {
             st = con.prepareStatement(sql);
             st.setInt(1, available - newOrder.getQuantity());
             st.setInt(2, newOrder.getItemId());
-            st.executeQuery();
+            st.executeUpdate();
 
             sql = "INSERT INTO \"OrderedItems\" (item_id, quantity) VALUES (?, ?);";
             st = con.prepareStatement(sql);
             st.setInt(1, newOrder.getItemId());
             st.setInt(2, newOrder.getQuantity());
-            st.executeQuery();
+            st.executeUpdate();
 
             sql = "SELECT \n"
                     + "  \"OrderedItems\".ordered_item_id"
@@ -210,7 +210,7 @@ public class ModelOrders {
             st.setDate(2, newOrder.getStartDate());
             st.setDate(3, newOrder.getEndDate());
             st.setInt(4, addedOrderedId);
-            st.executeQuery();
+            st.executeUpdate();
             con.commit();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);

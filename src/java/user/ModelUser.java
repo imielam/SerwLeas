@@ -27,6 +27,7 @@ public class ModelUser {
 
     private int addAddress(TAddressData address) throws SQLException {
         String sql = "INSERT INTO \"Address\" (postal_code, street, street_hn, street_an, city) VALUES (?, ?, ?, ?, ?);";
+//        String sql = "INSERT INTO \"Address\" (postal_code, street, street_hn, street_an, city) VALUES ('00-000', 'maciek', '1', '1', 'maciek');";
         PreparedStatement st = con.prepareStatement(sql);
         int i = 1;
         st.setString(i++, address.getPostalCode());
@@ -34,7 +35,8 @@ public class ModelUser {
         st.setString(i++, address.getStreetHn());
         st.setInt(i++, address.getStreetAn());
         st.setString(i++, address.getCity());
-        st.executeQuery();
+        System.out.println(st);
+        st.executeUpdate();
 
         sql = "SELECT \"Address\".address_id FROM \"Address\" WHERE postal_code = ? AND street = ? AND street_hn = ? AND street_an = ? AND city = ?;";
         st = con.prepareStatement(sql);
@@ -53,15 +55,15 @@ public class ModelUser {
     }
 
     private int addCompany(TCompanyData company, int addressId) throws SQLException {
-        String sql = "INSERT INTO \"Company\" (address_id, name, NIP) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO \"Company\" (address_id, name, \"NIP\") VALUES (?, ?, ?);";
         PreparedStatement st = con.prepareStatement(sql);
         int i = 1;
         st.setInt(i++, addressId);
         st.setString(i++, company.getName());
         st.setString(i++, company.getNIP());
-        st.executeQuery();
+        st.executeUpdate();
 
-        sql = "SELECT \"Company\".company_id FROM \"Company\" WHERE address_id = ? AND name = ? AND NIP = ? ;";
+        sql = "SELECT \"Company\".company_id FROM \"Company\" WHERE address_id = ? AND name = ? AND \"NIP\" = ? ;";
         st = con.prepareStatement(sql);
         i = 1;
         st.setInt(i++, addressId);
@@ -85,7 +87,7 @@ public class ModelUser {
         st.setInt(i++, companyId);
         st.setInt(i++, user.getUserType());
         st.setString(i++, user.getPesel());
-        st.executeQuery();
+        st.executeUpdate();
     }
 
     public void addNewUser(UserType type, TUserData user, TCompanyData company, TAddressData address) {
