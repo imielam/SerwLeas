@@ -16,13 +16,5 @@ public class Orders {
     
     public Orders(){
         List<OrderedItem> ordereditems = new ArrayList<OrderedItem>();
-        ordereditems.add(new OrderedItem(1, 3));
-        ordereditems.add(new OrderedItem(2,15));
-        Order tmp = new Order(1,3,"2013-01-12","2013-06-12", ordereditems);
-        orders.add(tmp);
-        tmp = new Order(2,3,"2013-02-26","2014-02-26",ordereditems);
-        orders.add(tmp);
-        tmp = new Order(3,2,"2012-08-01","2014-08-01",ordereditems);
-        orders.add(tmp);
     }
 }

@@ -56,7 +56,7 @@
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%
-                    String content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">";
+                    String content ="";
                     String tmp = "";
                     for (Item i : inventory.inventory) {
                         tmp = "<table class=\"leasitem\">"
@@ -80,7 +80,11 @@
                                 + "<br />";
                         content += tmp;
                     }
-                    content += "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Złóż zamówienie\" /></p></form>";
+                    
+                    if(user.getUsertype()==1){
+                        content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">" + content + 
+                                "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Dodaj do koszyka\" /></p></form>";
+                    }
                 %>
 
                 <%=content%>

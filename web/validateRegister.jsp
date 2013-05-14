@@ -78,6 +78,8 @@
 
                     break;
             }
+            
+            response.setHeader("Refresh", "3;url=login.jsp");
         %>
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
