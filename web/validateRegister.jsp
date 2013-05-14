@@ -56,13 +56,13 @@
                             companyname, companynip, companytown, companystreet, companyhn,
                             companyan, companypostalcode);
                     if (validatorResponse == "ok") {
-                        body = "Walidacja i kapcza poprawna.";
+                        body = "Walidacja i kapcza poprawna. Konto zostanie teraz założone...";
                         TCompanyData tcd = new TCompanyData(companyname,companynip);
                         TAddressData tad = new TAddressData(companypostalcode,companystreet,companyhn,Integer.parseInt(companyan),companytown);
                         TUserData tud = new TUserData(username,email,1,pesel);
                         ModelUser mu = new ModelUser();
                         mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
-                        
+                        response.setHeader("Refresh", "2;url=login.jsp");
                         
                     } else {
                         body = "CAPTCHA została wprowadzona poprawnie, ale dane nie przeszły walidacji. Pamiętaj, że na obecną chwilę, wśród danych nie może być polskich znaków, "
@@ -72,6 +72,8 @@
 
                     break;
             }
+            
+            response.setHeader("Refresh", "3;url=login.jsp");
         %>
                 <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
