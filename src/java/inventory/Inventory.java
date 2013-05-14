@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Inventory {
     private String userType = null;
-    public List<Item> inventory;
+    public List<Item> inventory = new ArrayList<Item>();
     private ModelInventory mi = new ModelInventory();
     
     
