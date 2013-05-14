@@ -34,7 +34,6 @@ public class User {
 
     public User(){
         usertype = 0;
-        userid = 3;
     }
     public String getName() {
         return name;
@@ -52,7 +51,7 @@ public class User {
         try{
             this.password = m.md5(password);
         } catch (NoSuchAlgorithmException nsae){
-            
+            System.err.println(nsae);
         }
     }
     
