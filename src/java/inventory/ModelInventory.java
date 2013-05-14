@@ -6,6 +6,7 @@ package inventory;
 
 import database.Connector;
 import database.DBCredentials;
+import extras.DbException;
 import extras.UserType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class ModelInventory {
     private Connector con;
     private List<Item> list = new LinkedList<Item>();
     
-    public List<Item> getAllItems(UserType type) {
+    public List<Item> getAllItems(UserType type) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT * FROM \"" + DEFAULT_TABLE_NAME + "\" ORDER BY item_id";
         try {
@@ -34,11 +35,12 @@ public class ModelInventory {
             con.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbException();
         }
         return list;
     }
     
-    public List<Item> getAllAbailable(UserType type) {
+    public List<Item> getAllAbailable(UserType type) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT * FROM \"" + DEFAULT_TABLE_NAME + "\" WHERE available > 0 ORDER BY item_id";
         try {
@@ -47,6 +49,7 @@ public class ModelInventory {
             con.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbException();
         }
         return list;
     }

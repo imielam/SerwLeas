@@ -4,8 +4,6 @@
  */
 package orders_new;
 
-import orders_new.OrderedItem;
-import inventory.Item;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,6 +4,7 @@
  */
 package inventory;
 
+import extras.DbException;
 import extras.UserType;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Inventory {
 //        inventory.add(tmp);
     }
     
-    public void getItems(){
+    public void getItems() throws DbException{
 //        inventory = mi.getAllItems(UserType.GUEST);
         inventory = mi.getAllAbailable(UserType.GUEST);
     }

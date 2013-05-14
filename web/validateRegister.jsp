@@ -4,6 +4,7 @@
     Author     : Ponury
 --%>
 
+<%@page import="extras.DbException"%>
 <!DOCTYPE html>
 <%@ page language="java" import="captchas.CaptchasDotNet, user.Validation, user.ModelUser, user.TUserData, address.TAddressData, company.TCompanyData, extras.UserType" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,7 +20,7 @@
                     request.getSession(true), // Ensure session
                     "demo", // client
                     "secret" // secret
-            );
+                    );
             String captchapassword = request.getParameter("captchapassword");
             String username = request.getParameter("j_username");
             String password = request.getParameter("j_password");
@@ -57,13 +58,18 @@
                             companyan, companypostalcode);
                     if (validatorResponse == "ok") {
                         body = "Walidacja i kapcza poprawna.";
-                        TCompanyData tcd = new TCompanyData(companyname,companynip);
-                        TAddressData tad = new TAddressData(companypostalcode,companystreet,companyhn,Integer.parseInt(companyan),companytown);
-                        TUserData tud = new TUserData(0,username,password,email,1,pesel);
+                        TCompanyData tcd = new TCompanyData(companyname, companynip);
+                        TAddressData tad = new TAddressData(companypostalcode, companystreet, companyhn, Integer.parseInt(companyan), companytown);
+                        TUserData tud = new TUserData(0, username, password, email, 1, pesel);
                         ModelUser mu = new ModelUser();
-                        mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
-                        
-                        
+                        try {
+                            mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
+                        } catch (DbException e) {
+                            response.setHeader("Refresh", "1;url=error.jsp");
+                        }
+
+
+
                     } else {
                         body = "CAPTCHA została wprowadzona poprawnie, ale dane nie przeszły walidacji. Pamiętaj, że na obecną chwilę, wśród danych nie może być polskich znaków, "
                                 + "ponieważ zaprojektowanie tego aspektu zoutsource'owaliśmy do niewielkiej etiopijskiej wioski która nie podołała zadaniu."
@@ -73,7 +79,7 @@
                     break;
             }
         %>
-                <div id="top">
+        <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
                 <div class="headermenu_pos">
@@ -96,6 +102,6 @@
             <div class="content">
                 <%=body%>
             </div>
-        
+
     </body>
 </html>

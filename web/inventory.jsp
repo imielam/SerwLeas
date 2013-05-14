@@ -4,6 +4,7 @@
     Author     : Ponury
 --%>
 
+<%@page import="extras.DbException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page language="java" import="inventory.Inventory, inventory.Item" %>
 <!DOCTYPE html>
@@ -29,25 +30,29 @@
     <body>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
-        <% inventory.getItems(); %>
-            <div id="top">
-                <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
-                <div id ="headermenu">
-                    <div class="headermenu_pos">
-                        <a href="index.jsp">Aktualności</a></div>
-                    <div class="headermenu_pos">
-                        <a href="ofirmie.jsp">O firmie</a></div>
-                    <div class="headermenu_pos">
-                        <a href="inventory.jsp">Leasing</a></div>
-                    <div class="headermenu_pos">
-                        <a href="cart.jsp">Koszyk</a></div>
-                    <div class="headermenu_pos">
-                        <a href="controlPanel.jsp">Profil</a></div>
-                    <div class="headermenu_posend">
-                        <a href="kontakt.jsp">Kontakt</a></div>
-                </div>
+        <% try {
+                inventory.getItems();
+            } catch (DbException e) {
+                response.setHeader("Refresh", "1;url=error.jsp");
+            }%>
+        <div id="top">
+            <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
+            <div id ="headermenu">
+                <div class="headermenu_pos">
+                    <a href="index.jsp">Aktualności</a></div>
+                <div class="headermenu_pos">
+                    <a href="ofirmie.jsp">O firmie</a></div>
+                <div class="headermenu_pos">
+                    <a href="inventory.jsp">Leasing</a></div>
+                <div class="headermenu_pos">
+                    <a href="cart.jsp">Koszyk</a></div>
+                <div class="headermenu_pos">
+                    <a href="controlPanel.jsp">Profil</a></div>
+                <div class="headermenu_posend">
+                    <a href="kontakt.jsp">Kontakt</a></div>
             </div>
-            <div id="main">
+        </div>
+        <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%

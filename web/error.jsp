@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Error Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h2>Wystąpił błąd po stronie serwera.</h2><br/><h3>Proszę spróbuj ponownie później</h3>
     </body>
 </html>

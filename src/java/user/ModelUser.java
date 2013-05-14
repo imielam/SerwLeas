@@ -8,6 +8,7 @@ import address.TAddressData;
 import company.TCompanyData;
 import database.Connector;
 import database.DBCredentials;
+import extras.DbException;
 import extras.UserType;
 import inventory.ModelInventory;
 import java.sql.PreparedStatement;
@@ -137,8 +138,8 @@ public class ModelUser {
         st.executeUpdate();
     }
 
-    public void addNewUser(UserType type, TUserData user, TCompanyData company, TAddressData address) {
-        con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
+    public void addNewUser(UserType type, TUserData user, TCompanyData company, TAddressData address) throws DbException {
+        con = new Connector(DBCredentials.getInstance().getDBUserByType(UserType.GUEST));
         try {
             con.startTransaction();
             addUser(user, addCompany(company, addAddress(address)));
@@ -148,8 +149,10 @@ public class ModelUser {
             try {
                 con.rollback();
                 con.closeConnection();
+                throw new DbException();
             } catch (SQLException ex1) {
                 Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new DbException();
             }
         }
     }

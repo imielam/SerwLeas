@@ -6,6 +6,7 @@ package orders_new;
 
 import database.Connector;
 import database.DBCredentials;
+import extras.DbException;
 import extras.TDeleteData;
 import extras.TNewOrder;
 import extras.UserType;
@@ -27,7 +28,7 @@ public class ModelOrders {
 //    private static final String DEFAULT_TABLE_NAME = "Users";
     private Connector con;
 
-    public List<TOrderAmount> getAllUsersWithOrders(UserType type) {
+    public List<TOrderAmount> getAllUsersWithOrders(UserType type) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT " + "  \"Users\".login,"
                 + "  COUNT(\"Orders\".order_id) AS Amount  "
@@ -52,11 +53,12 @@ public class ModelOrders {
             con.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbException();
         }
         return list;
     }
 
-    public List<TOrderForUser> getOrdersForUser(UserType type, String login) {
+    public List<TOrderForUser> getOrdersForUser(UserType type, String login) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT "
                 + "  \"Users\".login, "
@@ -90,11 +92,12 @@ public class ModelOrders {
             con.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DbException();
         }
         return list;
     }
 
-    public void deleteOrder(UserType type, TDeleteData deleteData) {
+    public void deleteOrder(UserType type, TDeleteData deleteData) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT " + "OrderedItems\".item_id, "
                 + "  \"OrderedItems\".quantity, "
@@ -149,16 +152,17 @@ public class ModelOrders {
             try {
                 con.rollback();
                 con.closeConnection();
+                throw new DbException();
             } catch (SQLException ex1) {
                 Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new DbException();
             }
         }
 
     }
 
-    public void addNewOrder(UserType type, TNewOrder newOrder) {
+    public void addNewOrder(UserType type, TNewOrder newOrder) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
-
         try {
             con.startTransaction();
             String sql = "SELECT "
@@ -198,12 +202,12 @@ public class ModelOrders {
             st.setInt(2, newOrder.getQuantity());
             result = st.executeQuery();
             int addedOrderedId = 0;
-            if (result.next()){
+            if (result.next()) {
                 addedOrderedId = result.getInt(1);
             } else {
                 throw new SQLException("Wystąpił błąd. Cofam zmiany.");
             }
-            
+
             sql = "INSERT INTO \"Orderes\" (user_id, start_date, end_date, ordered_items_id) VALUES (?, ?, ?, ?);";
             st = con.prepareStatement(sql);
             st.setInt(1, newOrder.getUserId());
@@ -217,8 +221,10 @@ public class ModelOrders {
             try {
                 con.rollback();
                 con.closeConnection();
+                throw new DbException();
             } catch (SQLException ex1) {
                 Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new DbException();
             }
         }
     }
