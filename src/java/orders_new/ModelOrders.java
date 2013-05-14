@@ -29,6 +29,7 @@ public class ModelOrders {
 
     public List<TOrderAmount> getAllUsersWithOrders(UserType type) {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
+        //con = new Connector();
         String sql = "SELECT " + "  \"Users\".login,"
                 + "  COUNT(\"Orders\".order_id) AS Amount  "
                 + "FROM " + "  public.\"Orders\", "
