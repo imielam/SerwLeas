@@ -1,20 +1,18 @@
 <%-- 
-    Document   : validate
-    Created on : 2013-05-11, 19:04:42
+    Document   : ofirmie
+    Created on : 2013-05-13, 11:04:02
     Author     : Ponury
 --%>
 
-<%@page import="user.ModelUser"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <title>Walidacja</title>
+        <title>O Firmie</title>
     </head>
     <body>
-
         <div id="top">
             <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
             <div id ="headermenu">
@@ -35,30 +33,9 @@
         <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
-                <jsp:useBean id="user" class="user.User"
-                             scope="session"></jsp:useBean>
-                <jsp:setProperty property="*" name="user" />
-                
-                <jsp:useBean id="modelUser"
-                             class="user.ModelUser" scope="session"></jsp:useBean>
-
-                <% String result = "";
-                    int k = modelUser.userExists(user).getUserType();
-                    if (k>0) {
-                        user.setUsertype(k);
-                        session.setMaxInactiveInterval(600); // 10 minutowa sesja
-                        result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
-                        response.setHeader("Refresh", "3;url=controlPanel.jsp");
-                    } else {
-                        result = "Dane niepoprawne. Przekierowanie na stronę logowania w toku...";
-                        response.setHeader("Refresh", "3;url=login.jsp");
-                    }
-                %>
-                <div id="loginBox">
-                    <%= result%>
-                </div>
+                <p>Bardzo interesująca historia firmy zasługująca na opisanie w książce</p>
             </div>
         </div>
-
     </body>
 </html>
+

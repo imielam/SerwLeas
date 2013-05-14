@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import orders_new.ModelOrders;
 
 /**
@@ -52,6 +54,51 @@ public class ModelUser {
         } else {
             throw new SQLException("Wystąpił błąd. Cofam zmiany.");
         }
+    }
+
+    private boolean precheckLoginData(User user) {
+        Pattern lettersOnly = Pattern.compile("[a-zA-Z]+");
+        Matcher m = lettersOnly.matcher(user.getName());
+        if (!m.matches() || user.getName().length() < 4 || user.getName().length() > 16) {
+            return false;
+        }
+        //haslo jest uprzednio hashowane wiec nie trzeba sprawdzac czy ktos wrzucil cos szkodliwego
+
+        return true;
+    }
+
+    public TUserData userExists(User user) {
+        return userExists(UserType.GUEST, user);
+    }
+
+    public TUserData userExists(UserType type, User user) {
+        if (!precheckLoginData(user)) {
+            return new TUserData();
+        }
+        con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
+        try {
+        ResultSet rs;
+            PreparedStatement st = con.prepareStatement("SELECT * FROM \"Users\" WHERE login = ? AND password = ?");
+            st.setString(1, user.getName().trim());
+            st.setString(2, user.getPassword().trim());
+            rs = st.executeQuery();
+            con.closeConnection();
+            if (rs.next()) {
+                int i = 1;
+                TUserData tud = new TUserData(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6));
+                return tud;
+            }
+            return new TUserData();
+        } catch (SQLException ex) {
+            System.err.println("nie powiodło się: " + ex.getMessage());
+            return new TUserData();
+        }
+
     }
 
     private int addCompany(TCompanyData company, int addressId) throws SQLException {

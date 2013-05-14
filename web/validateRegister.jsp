@@ -59,7 +59,7 @@
                         body = "Walidacja i kapcza poprawna.";
                         TCompanyData tcd = new TCompanyData(companyname,companynip);
                         TAddressData tad = new TAddressData(companypostalcode,companystreet,companyhn,Integer.parseInt(companyan),companytown);
-                        TUserData tud = new TUserData(username,email,1,pesel);
+                        TUserData tud = new TUserData(0,username,password,email,1,pesel);
                         ModelUser mu = new ModelUser();
                         mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
                         

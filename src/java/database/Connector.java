@@ -30,7 +30,7 @@ public class Connector {
     }
     
     public Connector(String user, String password) {
-        this(DEFAULT_ADDRESS, DEFAULT_USER, DEFAULT_PASSWORD);
+        this(DEFAULT_ADDRESS, user, password);
     }
     
     public Connector(String adres, String user, String password) {
