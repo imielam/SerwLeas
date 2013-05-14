@@ -29,29 +29,31 @@
     <body>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
-        <% inventory.getItems(); %>
-            <div id="top">
-                <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
-                <div id ="headermenu">
-                    <div class="headermenu_pos">
-                        <a href="index.jsp">Aktualności</a></div>
-                    <div class="headermenu_pos">
-                        <a href="ofirmie.jsp">O firmie</a></div>
-                    <div class="headermenu_pos">
-                        <a href="inventory.jsp">Leasing</a></div>
-                    <div class="headermenu_pos">
-                        <a href="cart.jsp">Koszyk</a></div>
-                    <div class="headermenu_pos">
-                        <a href="controlPanel.jsp">Profil</a></div>
-                    <div class="headermenu_posend">
-                        <a href="kontakt.jsp">Kontakt</a></div>
-                </div>
+        <jsp:useBean id="user" class="user.User"
+                     scope="session"></jsp:useBean>
+        <% inventory.getItems();%>
+        <div id="top">
+            <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
+            <div id ="headermenu">
+                <div class="headermenu_pos">
+                    <a href="index.jsp">Aktualności</a></div>
+                <div class="headermenu_pos">
+                    <a href="ofirmie.jsp">O firmie</a></div>
+                <div class="headermenu_pos">
+                    <a href="inventory.jsp">Leasing</a></div>
+                <div class="headermenu_pos">
+                    <a href="cart.jsp">Koszyk</a></div>
+                <div class="headermenu_pos">
+                    <a href="controlPanel.jsp">Profil</a></div>
+                <div class="headermenu_posend">
+                    <a href="kontakt.jsp">Kontakt</a></div>
             </div>
-            <div id="main">
+        </div>
+        <div id="main">
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%
-                    String content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">";
+                    String content ="";
                     String tmp = "";
                     for (Item i : inventory.inventory) {
                         tmp = "<table class=\"leasitem\">"
@@ -75,7 +77,11 @@
                                 + "<br />";
                         content += tmp;
                     }
-                    content += "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Złóż zamówienie\" /></p></form>";
+                    
+                    if(user.getUsertype()==1){
+                        content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">" + content + 
+                                "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Dodaj do koszyka\" /></p></form>";
+                    }
                 %>
 
                 <%=content%>

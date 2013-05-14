@@ -5,13 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page language="java" import="orders_new.Orders, orders_new.OrderedItem, orders_new.Order" %>
+<%@ page language="java" import="orders_new.Orders, orders_new.OrderedItem, orders_new.Order, orders_new.ModelOrders, orders_new.TOrderAmount,
+         extras.UserType, java.util.List;" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>Zamówienia</title>
+
     </head>
     <body>
         <jsp:useBean id="user" class="user.User"
@@ -20,6 +22,8 @@
                      class="inventory.Inventory" scope="session"></jsp:useBean>
         <jsp:useBean id="orders"
                      class="orders_new.Orders" scope="session"></jsp:useBean>
+        <jsp:useBean id="mo"
+                     class="orders_new.ModelOrders" scope="session"></jsp:useBean>
             <div id="top">
                 <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
                 <div id ="headermenu">
@@ -48,16 +52,15 @@
                     } else if (user.getUsertype() == 1) {
                         content = "";
                         for (Order o : orders.orders) {
-
                             if (o.getUserid() == user.getUserid()) {
                                 content += "<table class=\"leasitem\">"
-                                        + "<tr><td>Id zamówienia:</td><td>"+o.getOrderid()+"</td></tr>"
-                                        + "<tr><td>Początek zamówienia:</td><td>"+o.getStartdate()+"</td></tr>"
-                                        + "<tr><td>Koniec zamówienia:</td><td>"+o.getEnddate()+"</td></tr>"
+                                        + "<tr><td>Id zamówienia:</td><td>" + o.getOrderid() + "</td></tr>"
+                                        + "<tr><td>Początek zamówienia:</td><td>" + o.getStartdate() + "</td></tr>"
+                                        + "<tr><td>Koniec zamówienia:</td><td>" + o.getEnddate() + "</td></tr>"
                                         + "<tr><td colspan=\"2\">Zamówione przedmioty</td></tr>";
                                 for (OrderedItem oi : o.getOrdereditems()) {
-                                    content += "<tr><td>"+inventory.inventory.get(oi.itemid).getName()+"</td>"
-                                            + "<td>"+oi.quantity+"</td></tr>";
+                                    content += "<tr><td>" + inventory.inventory.get(oi.itemid).getName() + "</td>"
+                                            + "<td>" + oi.quantity + "</td></tr>";
                                 }
                                 content += "</table><br />";
                             }
@@ -66,7 +69,10 @@
                     } else if (user.getUsertype() == 2) {
                         content = "<p>Wybierz klienta: </p>";
                         content += "<table class=\"leasitem\">";
-                        
+                        List<TOrderAmount> uwo = mo.getAllUsersWithOrders(UserType.SALESMAN);
+                        for (TOrderAmount toa : uwo) {
+                            content += "<tr><td><a id\"=" + toa.getUserName() + "\">" + toa.getUserName() + "</a></td><td>" + toa.getAmount() + "</td></tr>";
+                        }
                         content += "</table>";
                     } else if (user.getUsertype() == 3) {
                         content = "";
@@ -74,6 +80,7 @@
                 %>
                 <%=content%>
             </div>
+
         </div>
     </body>
 </html>
