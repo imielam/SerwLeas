@@ -67,6 +67,7 @@
                         } catch (DbException e) {
                             response.setHeader("Refresh", "1;url=error.jsp");
                         }
+                        response.setHeader("Refresh", "2;url=login.jsp");
 
 
 

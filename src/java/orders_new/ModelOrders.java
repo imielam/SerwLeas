@@ -66,7 +66,8 @@ public class ModelOrders {
                 + "  \"Orders\".start_date, "
                 + "  \"Orders\".end_date, "
                 + "  \"OrderedItems\".quantity, "
-                + "  \"Inventory\".name"
+                + "  \"Inventory\".name, "
+                + "  \"Orders\".order_id"
                 + "FROM "
                 + "  public.\"Users\", "
                 + "  public.\"Orders\", "
@@ -74,7 +75,7 @@ public class ModelOrders {
                 + "  public.\"Inventory\""
                 + "WHERE \n"
                 + "  \"Orders\".user_id = \"Users\".user_id AND"
-                + "  \"Orders\".ordered_items_id = \"OrderedItems\".ordered_item_id AND"
+                + "  \"Orders\".order_id = \"OrderedItems\".order_id AND"
                 + "  \"OrderedItems\".item_id = \"Inventory\".item_id AND" + "  \"Users\".login = ?;";
         LinkedList<TOrderForUser> list = new LinkedList<TOrderForUser>();
         try {
@@ -87,7 +88,8 @@ public class ModelOrders {
                         result.getDate(i++),
                         result.getDate(i++),
                         result.getInt(i++),
-                        result.getString(i++));
+                        result.getString(i++),
+                        result.getInt(i++));
                 list.add(item);
             }
             con.closeConnection();
