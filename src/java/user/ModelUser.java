@@ -139,7 +139,7 @@ public class ModelUser {
     }
 
     public void addNewUser(UserType type, TUserData user, TCompanyData company, TAddressData address) throws DbException {
-        con = new Connector(DBCredentials.getInstance().getDBUserByType(UserType.GUEST));
+        con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         try {
             con.startTransaction();
             addUser(user, addCompany(company, addAddress(address)));

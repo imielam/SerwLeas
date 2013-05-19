@@ -6,7 +6,7 @@
 
 <%@page import="extras.DbException"%>
 <!DOCTYPE html>
-<%@ page language="java" import="captchas.CaptchasDotNet, user.Validation, user.ModelUser, user.TUserData, address.TAddressData, company.TCompanyData, extras.UserType" %>
+<%@ page language="java" import="captchas.CaptchasDotNet, database.MD5, user.Validation, user.ModelUser, user.TUserData, address.TAddressData, company.TCompanyData, extras.UserType" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
@@ -57,10 +57,11 @@
                             companyname, companynip, companytown, companystreet, companyhn,
                             companyan, companypostalcode);
                     if (validatorResponse == "ok") {
-                        body = "Walidacja i kapcza poprawna.";
+                        body = "Walidacja i kapcza poprawna. Nastąpi stworzenie konta.";
                         TCompanyData tcd = new TCompanyData(companyname, companynip);
                         TAddressData tad = new TAddressData(companypostalcode, companystreet, companyhn, Integer.parseInt(companyan), companytown);
-                        TUserData tud = new TUserData(0, username, password, email, 1, pesel);
+                        MD5 mdfive = new MD5();
+                        TUserData tud = new TUserData(0, username, mdfive.md5(password), email, 1, pesel);
                         ModelUser mu = new ModelUser();
                         try {
                             mu.addNewUser(UserType.ADMIN, tud, tcd, tad);
@@ -68,8 +69,6 @@
                             response.setHeader("Refresh", "1;url=error.jsp");
                         }
                         response.setHeader("Refresh", "2;url=login.jsp");
-
-
 
                     } else {
                         body = "CAPTCHA została wprowadzona poprawnie, ale dane nie przeszły walidacji. Pamiętaj, że na obecną chwilę, wśród danych nie może być polskich znaków, "

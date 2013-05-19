@@ -81,7 +81,7 @@
                                         + "<td>"+session.getAttribute("item"+(i+1)+"orderquant")+"</td>"
                                         + "<td> Cena za mc: "+inventory.inventory.get(i).getBase_price()*itemQuantNum[i]+"</td></tr>";
                                         //+ "<td>"+itemQuantNum[i]+"</td></tr>";
-                                neworder.addItem(new OrderedItem(i, itemQuantNum[i]));
+                                neworder.addItem(new OrderedItem(i+1, itemQuantNum[i]));
                             }
                         }
                         content+="</table>"

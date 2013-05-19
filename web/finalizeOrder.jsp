@@ -44,23 +44,33 @@
                 <%
                     String content = "";
                     String time = request.getParameter("timeInMonths");
+                    int intTime = 0;
+                    try {
+                        intTime = Integer.parseInt(time);
+                    } catch (Exception e) {
+                    }
                     Calendar cal = Calendar.getInstance();
                     java.sql.Date startDate = new java.sql.Date(cal.getTimeInMillis());
-                    cal.add(Calendar.MONTH, Integer.parseInt(time));
+                    cal.add(Calendar.MONTH, intTime);
                     java.sql.Date endDate = new java.sql.Date(cal.getTimeInMillis());
 
                     Format f = new SimpleDateFormat("dd-MMMM-yyyy");
                     int itemcount = 0;
-                    for(OrderedItem o : neworder.getOrdereditems()){
+                    for (OrderedItem o : neworder.getOrdereditems()) {
                         itemcount++;
                     }
                     ModelOrders mo = new ModelOrders();
-                    try {
-                        mo.addNewOrder(UserType.ADMIN, new Order(0,user.getUserid(),startDate,endDate,neworder.getOrdereditems()));
-                        content = "Dokonałeś zamówienia na " + itemcount + " przedmiotów. Czas trwania: " + f.format(startDate.getTime()) + " do " + f.format(endDate.getTime());
-                    } catch (Exception e){
-                        content = "Wystąpił błąd przy dodawaniu zamówienia";
+                    if (intTime > 2 || intTime < 13 || itemcount > 0 || user.getUsertype()!=1) {
+                        try {
+                            mo.addNewOrder(UserType.ADMIN, new Order(0, user.getUserid(), startDate, endDate, neworder.getOrdereditems()));
+                            content = "Dokonałeś zamówienia na " + itemcount + " roznych przedmiotów. Czas trwania: " + f.format(startDate.getTime()) + " do " + f.format(endDate.getTime());
+                        } catch (Exception e) {
+                            content = "Wystąpił błąd przy dodawaniu zamówienia";
+                        }
+                    } else {
+                        content = "Coś poszło bardzo nie tak.";
                     }
+
 
                 %>
 
