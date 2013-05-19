@@ -191,7 +191,8 @@ public class ModelOrders {
 
             for (int i = 0; i < newOrder.getOrdereditems().size(); i++) {
                 OrderedItem oi = newOrder.getOrdereditems().get(i);
-                sql = "SELECT \"Inventory\".available\n"
+                 sql = "SELECT \n"
+                        + "  \"Inventory\".available\n"
                         + "FROM \n"
                         + "  public.\"Inventory\"\n"
                         + "WHERE\n"

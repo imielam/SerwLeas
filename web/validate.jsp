@@ -38,23 +38,31 @@
                 <jsp:useBean id="user" class="user.User"
                              scope="session"></jsp:useBean>
                 <jsp:setProperty property="*" name="user" />
-                
+
                 <jsp:useBean id="modelUser"
                              class="user.ModelUser" scope="session"></jsp:useBean>
 
-                <% String result = "";
-                    int k = modelUser.userExists(user).getUserType();
-                    int l = modelUser.userExists(user).getUserId();
-                    if (k>0) {
-                        user.setUsertype(k);
-                        user.setUserid(l);
-                        session.setMaxInactiveInterval(600); // 10 minutowa sesja
-                        result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
-                        response.setHeader("Refresh", "3;url=controlPanel.jsp");
-                    } else {
-                        result = "Dane niepoprawne. Przekierowanie na stronę logowania w toku...";
-                        response.setHeader("Refresh", "3;url=login.jsp");
+                <%  
+                    String result = "";
+                    try {
+                        
+                        int k = modelUser.userExists(user).getUserType();
+                        int l = modelUser.userExists(user).getUserId();
+                        if (k > 0) {
+                            user.setUsertype(k);
+                            user.setUserid(l);
+                            session.setMaxInactiveInterval(600); // 10 minutowa sesja
+                            result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
+                            response.setHeader("Refresh", "2;url=controlPanel.jsp");
+                        } else {
+                            result = "Dane niepoprawne. Przekierowanie na stronę logowania w toku...";
+                            response.setHeader("Refresh", "2;url=login.jsp");
+                        }
+                    } catch (Exception e) {
+                        result = "Logowanie nie powiodło się. Wprowadź poprawne dane.";
+                        response.setHeader("Refresh", "2;url=login.jsp");
                     }
+
                 %>
                 <div id="loginBox">
                     <%= result%>

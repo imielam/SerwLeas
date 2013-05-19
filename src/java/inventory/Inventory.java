@@ -30,6 +30,6 @@ public class Inventory {
     
     public void getItems() throws DbException{
 //        inventory = mi.getAllItems(UserType.GUEST);
-        inventory = mi.getAllAbailable(UserType.GUEST);
+        inventory = mi.getAllItems(UserType.GUEST);
     }
 }
