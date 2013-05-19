@@ -11,12 +11,10 @@ package orders_new;
 public class TOrderedItem {
     private int itemId;
     private int quantity;
-    private int orderedItemId;
 
-    public TOrderedItem(int itemId, int quantity, int orderedItemId) {
+    public TOrderedItem(int itemId, int quantity) {
         this.itemId = itemId;
         this.quantity = quantity;
-        this.orderedItemId = orderedItemId;
     }
 
     public int getItemId() {
@@ -25,10 +23,6 @@ public class TOrderedItem {
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public int getOrderedItemId() {
-        return orderedItemId;
     }
     
 }

@@ -14,6 +14,7 @@ import inventory.ModelInventory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -100,54 +101,59 @@ public class ModelOrders {
         return list;
     }
 
-    public void deleteOrder(UserType type, TDeleteData deleteData) throws DbException {
+    public void deleteOrder(UserType type, int orderId) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
-        String sql = "SELECT " + "OrderedItems\".item_id, "
-                + "  \"OrderedItems\".quantity, "
-                + "  \"OrderedItems\".ordered_item_id" + "FROM "
-                + "  public.\"Users\", " + "  public.\"OrderedItems\", "
-                + "  public.\"Orders\", " + "  public.\"Inventory\" " + "WHERE "
-                + "  \"OrderedItems\".item_id = \"Inventory\".item_id AND "
-                + "  \"Orders\".user_id = \"Users\".user_id AND"
-                + "  \"Orders\".ordered_items_id = \"OrderedItems\".ordered_item_id AND"
-                + "  \"OrderedItems\".quantity = ? AND" + "  \"Inventory\".name = ? AND"
-                + "  \"Users\".login = ?;";
+        String sql = "SELECT \n"
+                + "  \"OrderedItems\".item_id, \n"
+                + "  \"OrderedItems\".quantity\n"
+                + "FROM \n"
+                + "  public.\"Orders\", \n"
+                + "  public.\"OrderedItems\", \n"
+                + "  public.\"Inventory\"\n"
+                + "WHERE \n"
+                + "  \"Orders\".order_id = \"OrderedItems\".order_id AND\n"
+                + "  \"OrderedItems\".item_id = \"Inventory\".item_id AND\n"
+                + "  \"OrderedItems\".order_id = ?;";
         try {
             PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, deleteData.getQuantity());
-            st.setString(2, deleteData.getProductName());
-            st.setString(3, deleteData.getLogin());
+            st.setInt(1, orderId);
             ResultSet result = st.executeQuery();
-            TOrderedItem oi = null;
-            if (result.next()) {
+            List<TOrderedItem> list = new ArrayList<TOrderedItem>();
+            while (result.next()) {
                 int i = 1;
-                oi = new TOrderedItem(result.getInt(i++), result.getInt(i++), result.getInt(i++));
-            } else {
+                TOrderedItem oi = new TOrderedItem(result.getInt(i++), result.getInt(i++));
+                list.add(oi);
+            }
+            if (list.size() < 0) {
                 throw new SQLException("Nie znalazłem danych do usunięcia. Cofam zmiany.");
             }
+
             con.startTransaction();
-            sql = "DELETE FROM \"OrderedItems\" WHERE \"OrderedItems\".ordered_item_id = ?;";
+            sql = "DELETE FROM \"Orders\" WHERE \"Orders\".order_id = ?;";
             st = con.prepareStatement(sql);
-            st.setInt(1, oi.getOrderedItemId());
+            st.setInt(1, orderId);
             st.executeUpdate();
-            sql = "SELECT "
-                    + "  \"Inventory\".available"
-                    + "FROM "
-                    + "  public.\"Inventory\""
-                    + "WHERE "
-                    + "  \"Inventory\".item_id = ?;";
-            st = con.prepareStatement(sql);
-            st.setInt(1, oi.getItemId());
-            result = st.executeQuery();
-            int available = 0;
-            if (result.next()) {
-                available = result.getInt(1);
+            for (int j = 0; j < list.size(); j++) {
+                TOrderedItem oi = list.get(j);
+                sql = "SELECT "
+                        + "  \"Inventory\".available"
+                        + "FROM "
+                        + "  public.\"Inventory\""
+                        + "WHERE "
+                        + "  \"Inventory\".item_id = ?;";
+                st = con.prepareStatement(sql);
+                st.setInt(1, oi.getItemId());
+                result = st.executeQuery();
+                int available = 0;
+                if (result.next()) {
+                    available = result.getInt(1);
+                }
+                sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
+                st = con.prepareStatement(sql);
+                st.setInt(1, available + oi.getQuantity());
+                st.setInt(2, oi.getItemId());
+                st.executeUpdate();
             }
-            sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
-            st = con.prepareStatement(sql);
-            st.setInt(1, available + oi.getQuantity());
-            st.setInt(2, oi.getItemId());
-            st.executeUpdate();
             con.commit();
             con.closeConnection();
         } catch (SQLException ex) {
@@ -161,63 +167,56 @@ public class ModelOrders {
                 throw new DbException();
             }
         }
-
     }
 
-    public void addNewOrder(UserType type, TNewOrder newOrder) throws DbException {
+    public void addNewOrder(UserType type, Order newOrder) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         try {
             con.startTransaction();
-            String sql = "SELECT "
-                    + "  \"Inventory\".available"
-                    + "FROM "
-                    + "  public.\"Inventory\""
-                    + "WHERE "
-                    + "  \"Inventory\".item_id = ?;";
+
+            String sql = "INSERT INTO \"Orderes\" (user_id, start_date, end_date) VALUES (?, ?, ?);";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, newOrder.getItemId());
+            st.setInt(1, newOrder.getUserid());
+            st.setDate(2, newOrder.getStartdate());
+            st.setDate(3, newOrder.getEnddate());
+            st.executeUpdate();
+
+            sql = "SELECT \"order_id\" FROM \"Orders\" ORDER BY \"order_id\" DESC LIMIT 1;";
+            st = con.prepareStatement(sql);
             ResultSet result = st.executeQuery();
-            int available = 0;
+            int orderID = 0;
             if (result.next()) {
-                available = result.getInt(1);
-            }
-            sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
-            st = con.prepareStatement(sql);
-            st.setInt(1, available - newOrder.getQuantity());
-            st.setInt(2, newOrder.getItemId());
-            st.executeUpdate();
-
-            sql = "INSERT INTO \"OrderedItems\" (item_id, quantity) VALUES (?, ?);";
-            st = con.prepareStatement(sql);
-            st.setInt(1, newOrder.getItemId());
-            st.setInt(2, newOrder.getQuantity());
-            st.executeUpdate();
-
-            sql = "SELECT \n"
-                    + "  \"OrderedItems\".ordered_item_id"
-                    + "FROM "
-                    + "  public.\"OrderedItems\""
-                    + "WHERE"
-                    + "  \"OrderedItems\".item_id = ? AND "
-                    + "  \"OrderedItems\".quantity = ?;";
-            st = con.prepareStatement(sql);
-            st.setInt(1, newOrder.getItemId());
-            st.setInt(2, newOrder.getQuantity());
-            result = st.executeQuery();
-            int addedOrderedId = 0;
-            if (result.next()) {
-                addedOrderedId = result.getInt(1);
-            } else {
-                throw new SQLException("Wystąpił błąd. Cofam zmiany.");
+                orderID = result.getInt(1);
             }
 
-            sql = "INSERT INTO \"Orderes\" (user_id, start_date, end_date, ordered_items_id) VALUES (?, ?, ?, ?);";
-            st = con.prepareStatement(sql);
-            st.setInt(1, newOrder.getUserId());
-            st.setDate(2, newOrder.getStartDate());
-            st.setDate(3, newOrder.getEndDate());
-            st.setInt(4, addedOrderedId);
-            st.executeUpdate();
+            for (int i = 0; i < newOrder.getOrdereditems().size(); i++) {
+                OrderedItem oi = newOrder.getOrdereditems().get(i);
+                sql = "SELECT "
+                        + "  \"Inventory\".available"
+                        + "FROM "
+                        + "  public.\"Inventory\""
+                        + "WHERE "
+                        + "  \"Inventory\".item_id = ?;";
+                st = con.prepareStatement(sql);
+                st.setInt(1, oi.itemid);
+                result = st.executeQuery();
+                int available = 0;
+                if (result.next()) {
+                    available = result.getInt(1);
+                }
+                sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
+                st = con.prepareStatement(sql);
+                st.setInt(1, available - oi.quantity);
+                st.setInt(2, oi.itemid);
+                st.executeUpdate();
+
+                sql = "INSERT INTO \"OrderedItems\" (item_id, quantity, order_id) VALUES (?, ?, ?);";
+                st = con.prepareStatement(sql);
+                st.setInt(1, oi.itemid);
+                st.setInt(2, oi.quantity);
+                st.setInt(3, orderID);
+                st.executeUpdate();
+            }
             con.commit();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);

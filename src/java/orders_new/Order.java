@@ -4,6 +4,7 @@
  */
 package orders_new;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ import java.util.List;
 public class Order {
     private int orderid;
     private int userid;
-    private String startdate;
-    private String enddate;
+    private Date startdate;
+    private Date enddate;
     private List<OrderedItem> ordereditems = new ArrayList<OrderedItem>();
     
-    public Order (int orderid, int userid, String startdate, String enddate, List<OrderedItem> ordereditems){
+    public Order (int orderid, int userid, Date startdate, Date enddate, List<OrderedItem> ordereditems){
         this.orderid = orderid;
         this.userid = userid;
         this.startdate = startdate;
@@ -34,11 +35,11 @@ public class Order {
         return userid;
     }
 
-    public String getStartdate() {
+    public Date getStartdate() {
         return startdate;
     }
 
-    public String getEnddate() {
+    public Date getEnddate() {
         return enddate;
     }
 
@@ -54,11 +55,11 @@ public class Order {
         this.userid = userid;
     }
 
-    public void setStartdate(String startdate) {
+    public void setStartdate(Date startdate) {
         this.startdate = startdate;
     }
 
-    public void setEnddate(String enddate) {
+    public void setEnddate(Date enddate) {
         this.enddate = enddate;
     }
 
