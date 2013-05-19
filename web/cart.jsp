@@ -5,17 +5,32 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page language="java" import="inventory.Inventory, inventory.Item" %>
+<%@ page language="java" import="inventory.Inventory, inventory.Item, orders_new.OrderBean, orders_new.OrderedItem" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>Koszyk</title>
+            <script>
+            function validate(evt) {
+                var theEvent = evt || window.event;
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+                var regex = /[0-9]/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault)
+                        theEvent.preventDefault();
+                }
+            }
+        </script>
     </head>
     <body>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
+        <jsp:useBean id="neworder"
+                     class="orders_new.OrderBean" scope="session"></jsp:useBean>
             <div id="top">
                 <div id ="header"><img src ="img/servleaslogo.jpg" alt ="logo"></div>
                 <div id ="headermenu">
@@ -57,15 +72,21 @@
                         }
                     }
                     if(orderedItemsNum!=0){
+                        OrderedItem o;
+                        content+= " <form name=\"frm\" method=\"post\" action=\"finalizeOrder.jsp\"\">";
                         content+="Zamawiane przedmioty: <br /><table class = leasitem>";
                         for (int i=0; i<itemQuantNum.length ;i++){
-                            if(itemQuantNum[i]!=0){
+                            if(itemQuantNum[i]!=0){    
                                 content+="<tr><td>"+inventory.inventory.get(i).getName()+"</td>"
-                                        + "<td>"+session.getAttribute("item"+(i+1)+"orderquant")+"</td></tr>";
+                                        + "<td>"+session.getAttribute("item"+(i+1)+"orderquant")+"</td>"
+                                        + "<td> Cena za mc: "+inventory.inventory.get(i).getBase_price()*itemQuantNum[i]+"</td></tr>";
+                                        //+ "<td>"+itemQuantNum[i]+"</td></tr>";
+                                neworder.addItem(new OrderedItem(i, itemQuantNum[i]));
                             }
-                            
                         }
-                        content+="</table>";
+                        content+="</table>"
+                                + "Czas umowy w miesiącach (3-12): <input type=\"text\" size=\"2\" onkeypress=\"validate(event)\" name=\"timeInMonths\" value=\"3\" style=\"text-align:right\">"
+                        + "<p><input type=\"submit\" value=\"Złóż zamówienie\" /></p></form>";
                         
                     }else {
                         content="<p>Twój koszyk jest pusty.</p>";

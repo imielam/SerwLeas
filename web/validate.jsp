@@ -44,8 +44,10 @@
 
                 <% String result = "";
                     int k = modelUser.userExists(user).getUserType();
+                    int l = modelUser.userExists(user).getUserId();
                     if (k>0) {
                         user.setUsertype(k);
+                        user.setUserid(l);
                         session.setMaxInactiveInterval(600); // 10 minutowa sesja
                         result = "Witaj " + user.getName() + "! Przekierowanie w toku...";
                         response.setHeader("Refresh", "3;url=controlPanel.jsp");

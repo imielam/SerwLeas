@@ -90,8 +90,8 @@ public class ModelUser {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(4),
-                        rs.getInt(5),
-                        rs.getString(6));
+                        rs.getInt(6),
+                        rs.getString(7));
                 return tud;
             }
             return new TUserData();

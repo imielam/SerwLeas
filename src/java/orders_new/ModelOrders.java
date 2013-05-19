@@ -174,7 +174,7 @@ public class ModelOrders {
         try {
             con.startTransaction();
 
-            String sql = "INSERT INTO \"Orderes\" (user_id, start_date, end_date) VALUES (?, ?, ?);";
+            String sql = "INSERT INTO \"Orders\" (user_id, start_date, end_date) VALUES (?, ?, ?);";
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, newOrder.getUserid());
             st.setDate(2, newOrder.getStartdate());

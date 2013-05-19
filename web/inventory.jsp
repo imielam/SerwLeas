@@ -28,6 +28,8 @@
         </script>
     </head>
     <body>
+        <jsp:useBean id="user" class="user.User"
+                     scope="session"></jsp:useBean>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
         <% try {
@@ -56,7 +58,7 @@
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%
-                    String content ="";
+                    String content = "";
                     String tmp = "";
                     for (Item i : inventory.inventory) {
                         tmp = "<table class=\"leasitem\">"
@@ -80,10 +82,10 @@
                                 + "<br />";
                         content += tmp;
                     }
-                    
-                    if(user.getUsertype()==1){
-                        content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">" + content + 
-                                "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Dodaj do koszyka\" /></p></form>";
+
+                    if (user.getUsertype() == 1) {
+                        content = "<form name=\"frm\" method=\"post\" action=\"cart.jsp\">" + content
+                                + "<p style=\"text-align:center\"><input type=\"submit\"  value=\"Dodaj do koszyka\" /></p></form>";
                     }
                 %>
 
