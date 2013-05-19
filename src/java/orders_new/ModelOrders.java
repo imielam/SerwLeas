@@ -191,11 +191,10 @@ public class ModelOrders {
 
             for (int i = 0; i < newOrder.getOrdereditems().size(); i++) {
                 OrderedItem oi = newOrder.getOrdereditems().get(i);
-                sql = "SELECT "
-                        + "  \"Inventory\".available"
-                        + "FROM "
-                        + "  public.\"Inventory\""
-                        + "WHERE "
+                sql = "SELECT \"Inventory\".available\n"
+                        + "FROM \n"
+                        + "  public.\"Inventory\"\n"
+                        + "WHERE\n"
                         + "  \"Inventory\".item_id = ?;";
                 st = con.prepareStatement(sql);
                 st.setInt(1, oi.itemid);
@@ -203,6 +202,9 @@ public class ModelOrders {
                 int available = 0;
                 if (result.next()) {
                     available = result.getInt(1);
+                }
+                if (available == 0) {
+                    throw new DbException("Twoje zamówienie zawiera niedostępne produkty!");
                 }
                 sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
                 st = con.prepareStatement(sql);
@@ -224,6 +226,15 @@ public class ModelOrders {
                 con.rollback();
                 con.closeConnection();
                 throw new DbException();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new DbException();
+            }
+        } catch (DbException e) {
+            try {
+                con.rollback();
+                con.closeConnection();
+                throw e;
             } catch (SQLException ex1) {
                 Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
                 throw new DbException();

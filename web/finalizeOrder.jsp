@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="extras.DbException"%>
 <%@page import="extras.UserType"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page language="java" import="inventory.Inventory, inventory.Item, java.util.Calendar, java.sql.Date, java.text.Format, 
@@ -58,8 +59,8 @@
                     try {
                         mo.addNewOrder(UserType.ADMIN, new Order(0,user.getUserid(),startDate,endDate,neworder.getOrdereditems()));
                         content = "Dokonałeś zamówienia na " + itemcount + " przedmiotów. Czas trwania: " + f.format(startDate.getTime()) + " do " + f.format(endDate.getTime());
-                    } catch (Exception e){
-                        content = "Wystąpił błąd przy dodawaniu zamówienia";
+                    } catch (DbException e){
+                        content = "Wystąpił błąd przy dodawaniu zamówienia. " + e.getMsg();
                     }
 
                 %>
