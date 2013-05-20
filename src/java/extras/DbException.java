@@ -10,7 +10,11 @@ package extras;
  */
 public class DbException extends Exception {
     private String OfficialMessage = "<h2>Wystąpił błąd po stronie serwera.</h2><br/><h3>Proszę spróbuj ponownie później</h3>";
+    private String msg = "";
 
+    public String getMsg() {
+        return msg;
+    }
     /**
      * Creates a new instance of
      * <code>DbException</code> without detail message.
@@ -26,6 +30,7 @@ public class DbException extends Exception {
      */
     public DbException(String msg) {
         super(msg);
+        this.msg = msg;
     }
 
     @Override

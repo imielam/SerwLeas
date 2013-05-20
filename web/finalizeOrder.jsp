@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="extras.DbException"%>
 <%@page import="extras.UserType"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page language="java" import="inventory.Inventory, inventory.Item, java.util.Calendar, java.sql.Date, java.text.Format, 

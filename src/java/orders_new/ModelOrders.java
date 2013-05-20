@@ -208,6 +208,9 @@ public class ModelOrders {
                 if (result.next()) {
                     available = result.getInt(1);
                 }
+                if (available == 0) {
+                    throw new DbException("Twoje zamówienie zawiera niedostępne produkty!");
+                }
                 sql = "UPDATE \"Inventory\" SET available = ? WHERE item_id = ?;";
                 st = con.prepareStatement(sql);
                 st.setInt(1, available - oi.quantity);
@@ -228,6 +231,15 @@ public class ModelOrders {
                 con.rollback();
                 con.closeConnection();
                 throw new DbException();
+            } catch (SQLException ex1) {
+                Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
+                throw new DbException();
+            }
+        } catch (DbException e) {
+            try {
+                con.rollback();
+                con.closeConnection();
+                throw e;
             } catch (SQLException ex1) {
                 Logger.getLogger(ModelOrders.class.getName()).log(Level.SEVERE, null, ex1);
                 throw new DbException();
