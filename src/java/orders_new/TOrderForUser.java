@@ -24,7 +24,7 @@ public class TOrderForUser {
         return orderId;
     }
 
-    public TOrderForUser(String login, int id, Date startDate, Date endDate, int quality, String productName, int productId, int orderId) {
+    public TOrderForUser(String login, int id, Date startDate, Date endDate, int quality, int productId, String productName, int orderId) {
         this.login = login;
         this.userid = id;
         this.startDate = startDate;

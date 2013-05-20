@@ -32,14 +32,15 @@ public class ModelOrders {
     public List<TOrderAmount> getAllUsersWithOrders(UserType type) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         //con = new Connector();
-        String sql = "SELECT " + "  \"Users\".login,"
-                + "  COUNT(\"Orders\".order_id) AS Amount  "
-                + "FROM " + "  public.\"Orders\", "
-                + "  public.\"Users\""
-                + "WHERE "
-                + "  \"Orders\".user_id = \"Users\".user_id "
-                + "GROUP BY "
-                + "  \"Users\".login;";
+        String sql = "SELECT " + "  \"Users\".login, \n"
+                + "  \"Users\".user_id, \n"
+                + "  COUNT(\"Orders\".order_id) AS Amount \n "
+                + "FROM " + "  public.\"Orders\", \n"
+                + "  public.\"Users\"\n"
+                + "WHERE \n"
+                + "  \"Orders\".user_id = \"Users\".user_id \n"
+                + "GROUP BY \n"
+                + " \"Users\".user_id;";
 
         LinkedList<TOrderAmount> list = new LinkedList<TOrderAmount>();
         try {
@@ -49,40 +50,42 @@ public class ModelOrders {
                 int i = 1;
                 TOrderAmount item = new TOrderAmount(
                         result.getString(i++),
+                        result.getInt(i++),
                         result.getInt(i++));
                 list.add(item);
             }
             con.closeConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ModelInventory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DbException();
+            //throw new DbException();
         }
         return list;
     }
 
     public List<TOrderForUser> getOrdersForUser(UserType type, String login) throws DbException {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
-        String sql = "SELECT "
-                + "  \"Users\".login, "
-                + "  \"Users\".user_id, "
-                + "  \"Orders\".start_date, "
-                + "  \"Orders\".end_date, "
-                + "  \"OrderedItems\".quantity, "
-                + "  \"Inventory\".name, "
-                + "  \"Inventory\".item_id, "
-                + "  \"Orders\".order_id"
-                + "FROM "
-                + "  public.\"Users\", "
-                + "  public.\"Orders\", "
-                + "  public.\"OrderedItems\", "
-                + "  public.\"Inventory\""
+        String sql = "SELECT \n"
+                + "  \"Users\".login, \n"
+                + "  \"Users\".user_id, \n"
+                + "  \"Orders\".start_date, \n"
+                + "  \"Orders\".end_date, \n"
+                + "  \"OrderedItems\".quantity, \n"
+                + "  \"Inventory\".item_id, \n"
+                + "  \"Inventory\".name, \n"
+                + "  \"Orders\".order_id\n"
+                + "FROM \n"
+                + "  public.\"Users\", \n"
+                + "  public.\"Orders\", \n"
+                + "  public.\"OrderedItems\", \n"
+                + "  public.\"Inventory\"\n"
                 + "WHERE \n"
-                + "  \"Orders\".user_id = \"Users\".user_id AND"
-                + "  \"Orders\".order_id = \"OrderedItems\".order_id AND"
+                + "  \"Orders\".user_id = \"Users\".user_id AND\n"
+                + "  \"Orders\".order_id = \"OrderedItems\".order_id AND \n"
                 + "  \"OrderedItems\".item_id = \"Inventory\".item_id AND" + "  \"Users\".login = ?;";
         LinkedList<TOrderForUser> list = new LinkedList<TOrderForUser>();
         try {
             PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, login);
             ResultSet result = st.executeQuery();
             while (result.next()) {
                 int i = 1;
@@ -92,8 +95,8 @@ public class ModelOrders {
                         result.getDate(i++),
                         result.getDate(i++),
                         result.getInt(i++),
-                        result.getString(i++),
                         result.getInt(i++),
+                        result.getString(i++),
                         result.getInt(i++));
                 list.add(item);
             }

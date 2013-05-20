@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>Koszyk</title>
-            <script>
+        <script>
             function validate(evt) {
                 var theEvent = evt || window.event;
                 var key = theEvent.keyCode || theEvent.which;
@@ -52,46 +52,63 @@
             <jsp:include page="leftpanel.jsp"/>
             <div class="content">
                 <%
-                    
+
                     String content = "";
                     String tmp = "";
+                    boolean dataIsOk = true;
                     int orderedItemsNum = 0;
-                    int [] itemQuantNum = new int[inventory.inventory.size()];
-                    String [] itemQuant = new String[inventory.inventory.size()];
-                    for(int i =0; i<itemQuant.length;i++){
+                    int[] itemQuantNum = new int[inventory.inventory.size()];
+                    String[] itemQuant = new String[inventory.inventory.size()];
+                    for (int i = 0; i < itemQuant.length; i++) {
                         itemQuant[i] = new String("");
                     }
-                    for (int i=1; i<itemQuantNum.length+1 ;i++) {
-                        try{
-                            itemQuantNum[i-1] = Integer.parseInt(request.getParameter("item"+i+"orderquant"));
-                            session.setAttribute("item"+i+"orderquant", request.getParameter("item"+i+"orderquant"));
-                            if(itemQuantNum[i-1]!=0){
+                    for (int i = 1; i < itemQuantNum.length + 1; i++) {
+                        try {
+                            itemQuantNum[i - 1] = Integer.parseInt(request.getParameter("item" + i + "orderquant"));
+                            session.setAttribute("item" + i + "orderquant", request.getParameter("item" + i + "orderquant"));
+                            if (itemQuantNum[i - 1] != 0) {
                                 orderedItemsNum++;
-                            }                                
-                        }catch(Exception e){
+                            }
+                        } catch (Exception e) {
+                            dataIsOk = false;
                         }
                     }
-                    if(orderedItemsNum!=0){
+                    if (orderedItemsNum != 0 && dataIsOk) {
                         OrderedItem o;
-                        content+= " <form name=\"frm\" method=\"post\" action=\"finalizeOrder.jsp\"\">";
-                        content+="Zamawiane przedmioty: <br /><table class = leasitem>";
-                        for (int i=0; i<itemQuantNum.length ;i++){
-                            if(itemQuantNum[i]!=0){    
-                                content+="<tr><td>"+inventory.inventory.get(i).getName()+"</td>"
-                                        + "<td>"+session.getAttribute("item"+(i+1)+"orderquant")+"</td>"
-                                        + "<td> Cena za mc: "+inventory.inventory.get(i).getBase_price()*itemQuantNum[i]+"</td></tr>";
-                                        //+ "<td>"+itemQuantNum[i]+"</td></tr>";
-                                neworder.addItem(new OrderedItem(i+1, itemQuantNum[i]));
+                        content += " <form name=\"frm\" method=\"post\" action=\"finalizeOrder.jsp\"\">";
+                        content += "Zamawiane przedmioty: <br /><table class = leasitem>";
+                        
+                        for (int i = 0; i < itemQuantNum.length; i++) {
+                            if (itemQuantNum[i] != 0) {
+                                if (inventory.inventory.get(i).getAviable() < itemQuantNum[i]) {
+                                    content = "Nie udało się dodać przedmiotów do koszyka. " + inventory.inventory.get(i).getName() + " - dostepnosc tego przedmiotu "
+                                            + "jest mniejsza niż ilość podana w zamówieniu.";
+                                    dataIsOk = false;
+                                    break;
+                                }
+
+                                content += "<tr><td>" + inventory.inventory.get(i).getName() + "</td>"
+                                        + "<td>" + session.getAttribute("item" + (i + 1) + "orderquant") + "</td>"
+                                        + "<td> Cena za mc: " + inventory.inventory.get(i).getBase_price() * itemQuantNum[i] + "</td></tr>";
+                                //+ "<td>"+itemQuantNum[i]+"</td></tr>";
+                                neworder.addItem(new OrderedItem(i + 1, itemQuantNum[i]));
                             }
                         }
-                        content+="</table>"
-                                + "Czas umowy w miesiącach (3-12): <input type=\"text\" size=\"2\" onkeypress=\"validate(event)\" name=\"timeInMonths\" value=\"3\" style=\"text-align:right\">"
-                        + "<p><input type=\"submit\" value=\"Złóż zamówienie\" /></p></form>";
+                        if (dataIsOk) {
+                            content += "</table>"
+                                    + "Czas umowy w miesiącach (3-12): <input type=\"text\" size=\"2\" onkeypress=\"validate(event)\" name=\"timeInMonths\" value=\"3\" style=\"text-align:right\">"
+                                    + "<p><input type=\"submit\" value=\"Złóż zamówienie\" /></p></form>";
+                        }
+
+                    } else {
+                        if(dataIsOk){
+                            content = "<p>Twój koszyk jest pusty.</p>";
+                        }else {
+                            content = "<p>Wystąpił błąd.</p>";
+                        }
                         
-                    }else {
-                        content="<p>Twój koszyk jest pusty.</p>";
                     }
-                    
+
                 %>
 
                 <%=content%>

@@ -9,11 +9,14 @@ package orders_new;
  * @author Macimi
  */
 public class TOrderAmount {
+
     private String userName;
+    private int userId;
     private int amount;
 
-    public TOrderAmount(String userName, int amount) {
+    public TOrderAmount(String userName, int userid, int amount) {
         this.userName = userName;
+        this.userId = userid;
         this.amount = amount;
     }
 
@@ -24,6 +27,8 @@ public class TOrderAmount {
     public int getAmount() {
         return amount;
     }
-    
-    
+
+    public int getUserId() {
+        return userId;
+    }
 }
