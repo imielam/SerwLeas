@@ -66,5 +66,7 @@ public class Order {
     public void setOrdereditems(List<OrderedItem> ordereditems) {
         this.ordereditems = ordereditems;
     }
-    
+    public void addOrderedItem(OrderedItem oi){
+        this.ordereditems.add(oi);
+    }
 }

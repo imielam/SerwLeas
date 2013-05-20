@@ -64,10 +64,12 @@ public class ModelOrders {
         con = new Connector(DBCredentials.getInstance().getDBUserByType(type));
         String sql = "SELECT "
                 + "  \"Users\".login, "
+                + "  \"Users\".user_id, "
                 + "  \"Orders\".start_date, "
                 + "  \"Orders\".end_date, "
                 + "  \"OrderedItems\".quantity, "
                 + "  \"Inventory\".name, "
+                + "  \"Inventory\".item_id, "
                 + "  \"Orders\".order_id"
                 + "FROM "
                 + "  public.\"Users\", "
@@ -86,10 +88,12 @@ public class ModelOrders {
                 int i = 1;
                 TOrderForUser item = new TOrderForUser(
                         result.getString(i++),
+                        result.getInt(i++),
                         result.getDate(i++),
                         result.getDate(i++),
                         result.getInt(i++),
                         result.getString(i++),
+                        result.getInt(i++),
                         result.getInt(i++));
                 list.add(item);
             }

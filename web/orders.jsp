@@ -5,8 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page language="java" import="orders_new.Orders, orders_new.OrderedItem, orders_new.Order, orders_new.ModelOrders, orders_new.TOrderAmount,
-         extras.UserType, java.util.List;" %>
+<%@ page language="java" import="orders_new.TOrderForUser, orders_new.OrderedItem, orders_new.Order, orders_new.ModelOrders, orders_new.TOrderAmount,
+         extras.UserType, java.util.List, java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,8 +20,6 @@
                      scope="session"></jsp:useBean>
         <jsp:useBean id="inventory"
                      class="inventory.Inventory" scope="session"></jsp:useBean>
-        <jsp:useBean id="orders"
-                     class="orders_new.Orders" scope="session"></jsp:useBean>
         <jsp:useBean id="mo"
                      class="orders_new.ModelOrders" scope="session"></jsp:useBean>
             <div id="top">
@@ -51,7 +49,25 @@
                         response.setHeader("Refresh", "0;url=login.jsp");
                     } else if (user.getUsertype() == 1) {
                         content = "";
-                        for (Order o : orders.orders) {
+                        List<TOrderForUser> ordersForUser = mo.getOrdersForUser(UserType.CLIENT, user.getName());
+                        List<Order> orders = new ArrayList<Order>();
+                        boolean makeANewOrder;
+                        for(TOrderForUser tofu : ordersForUser){
+                            makeANewOrder = true;
+                            for(Order o : orders){
+                                if(tofu.getOrderId()==o.getOrderid()){
+                                    makeANewOrder = false;
+                                    o.addOrderedItem(new OrderedItem(tofu.getProductId(),tofu.getQuality()));
+                                }
+                            }
+                            if(makeANewOrder){
+                                List<OrderedItem> ordereditems = new ArrayList<OrderedItem>();
+                                ordereditems.add(new OrderedItem(tofu.getProductId(),tofu.getQuality()));
+                                orders.add(new Order(tofu.getOrderId(), tofu.getUserId(),tofu.getStartDate(), tofu.getEndDate(),ordereditems));
+                            }
+                        }
+                        
+                        for (Order o : orders) {
                             if (o.getUserid() == user.getUserid()) {
                                 content += "<table class=\"leasitem\">"
                                         + "<tr><td>Id zamówienia:</td><td>" + o.getOrderid() + "</td></tr>"
